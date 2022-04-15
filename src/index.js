@@ -114,6 +114,7 @@ const getDurationMS = () => {
 const runSort = () => {
     if (selectedSort === 'Bubble Sort') runBubbleSort();
     if (selectedSort === 'Selection Sort') runSelectionSort();
+    if (selectedSort === 'Insertion Sort') runInsertionSort();
 };
 
 // Bubble sort
@@ -172,6 +173,32 @@ const runSelectionSort = async () => {
         //     await delay(getDurationMS());
         // }
         // break;
+    }
+
+    enableButtons();
+};
+
+// Insertion Sort
+const runInsertionSort = async () => {
+    disableButtons();
+
+    for (let i = 0; i < array.length; i++) updateColor(i, NORMAL_COLOR);
+    await delay(getDurationMS());
+
+    for (let i = 0; i < array.length; i++) {
+        updateColor(i, HIGHLIGHT_COLOR);
+        for (let j = i - 1; j >= 0; j--) {
+            updateColor(j, HIGHLIGHT_COLOR);
+            await delay(getDurationMS());
+            if (array[j] <= array[j + 1]) {
+                updateColor(j, SORTED_COLOR);
+                updateColor(j + 1, SORTED_COLOR);
+                break;
+            }
+            updateColor(j + 1, SORTED_COLOR);
+            swap(j, j + 1);
+        }
+        updateColor(0, SORTED_COLOR);
     }
 
     enableButtons();
