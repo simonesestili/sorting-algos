@@ -1,9 +1,9 @@
 // Constants
-const SWAP_COLOR = '#f4a261';
-const NORMAL_COLOR = '#2a9d8f';
-const SORTED_COLOR = '#e76f51';
-const DURATION = 25;
-const MIN_VAL = 5;
+const SWAP_COLOR = '#F4A261';
+const NORMAL_COLOR = '#2A9D8F';
+const SORTED_COLOR = '#E76F51';
+const HIGHLIGHT_COLOR = '#E9C46A';
+const MIN_VAL = 10;
 const MAX_VAL = 1000;
 const SORTING_ID = {
     'Bubble Sort': 0,
@@ -79,28 +79,53 @@ const updateHeight = (idx) => {
     bar.style.height = `${height}%`;
 };
 
+// Swap adjacent elements in the array
 const swap = (i, j) => {
     [array[i], array[j]] = [array[j], array[i]];
     updateHeight(i);
     updateHeight(j);
 };
 
-// Bubble sort
-const runBubbleSort = async () => {
-    // Disable buttons
+// Disable buttons
+const disableButtons = () => {
     settingButtons.forEach((button) => {
         button.disabled = true;
     });
     sortButtons.forEach((button) => {
         button.disabled = true;
     });
+};
+
+// Enable buttons
+const enableButtons = () => {
+    settingButtons.forEach((button) => {
+        button.disabled = false;
+    });
+    sortButtons.forEach((button) => {
+        button.disabled = false;
+    });
+};
+
+const getDurationMS = () => {
+    return 1350 / array.length;
+};
+
+// Main Sort
+const runSort = () => {
+    if (selectedSort === 'Bubble Sort') runBubbleSort();
+    if (selectedSort === 'Selection Sort') runSelectionSort();
+};
+
+// Bubble sort
+const runBubbleSort = async () => {
+    disableButtons();
 
     for (let i = 0; i < array.length; i++) {
         let isSorted = true;
         for (let j = 0; j < array.length - 1 - i; j++) {
             updateColor(j, SWAP_COLOR);
             updateColor(j + 1, SWAP_COLOR);
-            await delay(DURATION);
+            await delay(getDurationMS());
             if (array[j + 1] < array[j]) {
                 swap(j, j + 1);
                 isSorted = false;
@@ -111,18 +136,45 @@ const runBubbleSort = async () => {
         if (!isSorted) continue;
         for (let j = array.length - 2 - i; j >= 0; j--) {
             updateColor(j, SORTED_COLOR);
-            await delay(DURATION);
+            await delay(getDurationMS());
         }
         break;
     }
 
-    // Re-enable buttons
-    settingButtons.forEach((button) => {
-        button.disabled = false;
-    });
-    sortButtons.forEach((button) => {
-        button.disabled = false;
-    });
+    enableButtons();
+};
+
+// Selection Sort
+const runSelectionSort = async () => {
+    disableButtons();
+
+    for (let i = 0; i < array.length; i++) {
+        let smallestIdx = i;
+        let incCount = 0;
+        updateColor(i, HIGHLIGHT_COLOR);
+        for (let j = i + 1; j < array.length; j++) {
+            incCount += array[j] > array[j - 1];
+            updateColor(j, SWAP_COLOR);
+            await delay(getDurationMS());
+            if (array[j] < array[smallestIdx]) {
+                updateColor(smallestIdx, NORMAL_COLOR);
+                smallestIdx = j;
+                updateColor(j, HIGHLIGHT_COLOR);
+            }
+            if (j != smallestIdx) updateColor(j, NORMAL_COLOR);
+        }
+        swap(i, smallestIdx);
+        updateColor(smallestIdx, NORMAL_COLOR);
+        updateColor(i, SORTED_COLOR);
+        // if (incCount + 1 != array.length - i) continue;
+        // for (let j = i + 1; j < array.length; j++) {
+        //     updateColor(j, SORTED_COLOR);
+        //     await delay(getDurationMS());
+        // }
+        // break;
+    }
+
+    enableButtons();
 };
 
 /*
@@ -147,7 +199,7 @@ const main = async () => {
     });
     // Run sort button
     const runSortBtn = document.getElementById('run-sort');
-    runSortBtn.addEventListener('click', runBubbleSort);
+    runSortBtn.addEventListener('click', runSort);
 };
 
 main();
