@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="styles.css" />
+        <title>Sorting Algorithm Visualizer</title>
+    </head>
+    <body>
+        <!-- NAVBAR / SETTINGS -->
+        <nav class="navbar">
+            <div class="array-settings">
+                <button class="btn" id="new-array">New Array</button>
+                <span>|</span>
+                <span>Array Size</span>
+                <input
+                    type="range"
+                    min="8"
+                    max="100"
+                    value="54"
+                    class="slider"
+                    id="array-size"
+                />
+            </div>
+            <div class="sorting-settings">
+                <button class="btn" id="bubble-sort">Bubble Sort</button>
+                <span>|</span>
+                <button class="btn" id="selection-sort">Selection Sort</button>
+                <span>|</span>
+                <button class="btn" id="insertion-sort">Insertion Sort</button>
+                <span>|</span>
+                <button class="btn" id="merge-sort">Merge Sort</button>
+                <span>|</span>
+                <button class="btn" id="quick-sort">Quick Sort</button>
+            </div>
+            <div>
+                <button class="btn" id="run-sort">Sort</button>
+            </div>
+        </nav>
+
+        <!-- ARRAY -->
+        <div id="array"></div>
+
+        <script src="index.js"></script>
+    </body>
+</html>
