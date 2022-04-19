@@ -115,6 +115,7 @@ const runSort = () => {
     if (selectedSort === 'Bubble Sort') runBubbleSort();
     if (selectedSort === 'Selection Sort') runSelectionSort();
     if (selectedSort === 'Insertion Sort') runInsertionSort();
+    if (selectedSort === 'Quick Sort') runQuickSort();
 };
 
 // Bubble sort
@@ -200,6 +201,53 @@ const runInsertionSort = async () => {
         }
         updateColor(0, SORTED_COLOR);
     }
+
+    enableButtons();
+};
+
+// Quick Sort Partition
+const partition = async (left, right) => {
+    if (left >= right) {
+        if (left === right) updateColor(left, SORTED_COLOR);
+        return;
+    }
+    let i = left;
+
+    updateColor(i, SWAP_COLOR);
+    for (let j = left; j < right; j++) {
+        updateColor(j, SWAP_COLOR);
+        await delay(getDurationMS());
+        if (array[right] > array[j]) {
+            updateColor(i, NORMAL_COLOR);
+            swap(i++, j);
+            updateColor(i, SWAP_COLOR);
+        }
+        updateColor(j, NORMAL_COLOR);
+    }
+
+    swap(i, right);
+    updateColor(i, SORTED_COLOR);
+    return i;
+};
+
+// Quick Sort Helper
+const quickSort = async (left, right) => {
+    if (left >= right) {
+        if (left === right) updateColor(left, SORTED_COLOR);
+        return;
+    }
+
+    const pivot = await partition(left, right);
+
+    await quickSort(left, pivot - 1);
+    await quickSort(pivot + 1, right);
+};
+
+// Quick Sort
+const runQuickSort = async () => {
+    disableButtons();
+
+    await quickSort(0, array.length - 1);
 
     enableButtons();
 };
