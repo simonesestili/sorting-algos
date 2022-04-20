@@ -70,6 +70,7 @@ const updateHighlight = () => {
 };
 
 const updateColor = (idx, color) => {
+    console.log(idx);
     document.getElementById(idx).style.backgroundColor = color;
 };
 
@@ -115,6 +116,7 @@ const runSort = () => {
     if (selectedSort === 'Bubble Sort') runBubbleSort();
     if (selectedSort === 'Selection Sort') runSelectionSort();
     if (selectedSort === 'Insertion Sort') runInsertionSort();
+    if (selectedSort === 'Merge Sort') runMergeSort();
     if (selectedSort === 'Quick Sort') runQuickSort();
 };
 
@@ -201,6 +203,18 @@ const runInsertionSort = async () => {
         }
         updateColor(0, SORTED_COLOR);
     }
+
+    enableButtons();
+};
+
+// Merge Sort Helper
+const mergeSort = async (left, right) => {};
+
+// Merge Sort
+const runMergeSort = async () => {
+    disableButtons();
+
+    await mergeSort(0, array.length - 1);
 
     enableButtons();
 };
