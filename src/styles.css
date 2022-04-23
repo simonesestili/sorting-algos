@@ -70,6 +70,10 @@
     #array {
         gap: 2px;
     }
+
+    .size-setting {
+        display: none;
+    }
 }
 
 @media (max-width: 540px) {

@@ -70,7 +70,6 @@ const updateHighlight = () => {
 };
 
 const updateColor = (idx, color) => {
-    console.log(idx);
     document.getElementById(idx).style.backgroundColor = color;
 };
 
@@ -208,7 +207,51 @@ const runInsertionSort = async () => {
 };
 
 // Merge Sort Helper
-const mergeSort = async (left, right) => {};
+const mergeSort = async (left, right) => {
+    if (left >= right) return;
+
+    const mid = Math.floor((left + right + 1) / 2);
+    await mergeSort(left, mid - 1);
+    await mergeSort(mid, right);
+    const temp = [];
+    const [n, m] = [mid - left, right - mid + 1];
+    let [l, r, k] = [left, mid, left];
+    for (let z = 0; z < n + m; z++) {
+        if (r > right) {
+            updateColor(l, SWAP_COLOR);
+            temp.push(array[l]);
+            await delay(getDurationMS());
+            updateColor(l++, NORMAL_COLOR);
+        } else if (l >= mid) {
+            updateColor(r, SWAP_COLOR);
+            temp.push(array[r]);
+            await delay(getDurationMS());
+            updateColor(r++, NORMAL_COLOR);
+        } else {
+            updateColor(l, SWAP_COLOR);
+            updateColor(r, SWAP_COLOR);
+            await delay(getDurationMS());
+            updateColor(l, NORMAL_COLOR);
+            updateColor(r, NORMAL_COLOR);
+            if (array[l] < array[r]) temp.push(array[l++]);
+            else temp.push(array[r++]);
+        }
+
+        while (
+            k - left < temp.length &&
+            (k < l || l == mid) &&
+            (k < r || r == right + 1)
+        ) {
+            array[k] = temp[k - left];
+            updateHeight(k);
+            updateColor(k, SORTED_COLOR);
+            await delay(getDurationMS());
+            if (left != 0 || right != array.length - 1)
+                updateColor(k, NORMAL_COLOR);
+            k++;
+        }
+    }
+};
 
 // Merge Sort
 const runMergeSort = async () => {
