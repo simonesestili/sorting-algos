@@ -258,6 +258,7 @@ const mergeSort = async (left, right) => {
 
 // Merge Sort
 const runMergeSort = async () => {
+    for (let i = 0; i < array.length; i++) updateColor(i, NORMAL_COLOR);
     disableButtons();
 
     await mergeSort(0, array.length - 1);
