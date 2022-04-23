@@ -231,10 +231,13 @@ const mergeSort = async (left, right) => {
             updateColor(l, SWAP_COLOR);
             updateColor(r, SWAP_COLOR);
             await delay(getDurationMS());
-            updateColor(l, NORMAL_COLOR);
-            updateColor(r, NORMAL_COLOR);
-            if (array[l] < array[r]) temp.push(array[l++]);
-            else temp.push(array[r++]);
+            if (array[l] < array[r]) {
+                updateColor(l, NORMAL_COLOR);
+                temp.push(array[l++]);
+            } else {
+                updateColor(r, NORMAL_COLOR);
+                temp.push(array[r++]);
+            }
         }
 
         while (
